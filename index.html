@@ -1,0 +1,110 @@
+<html>
+<script type="text/javascript">
+var allWords = ["rutgers","kalpana","friends","bootcamp","coding"];
+var wins=0;
+var actualWins=0;
+var losses=0;
+var chancesLeft = 11;
+
+var guessedChars = [''];
+var guessWord=[''];
+var countOfCharsInChosenWord=0;
+var computerPickedWord = String.empty;
+var countOfTimesGuessed = 0;
+function getRandomWord(e){
+	var computerRandomNumber = Math.floor(Math.random() * 5) + 0;
+	computerPickedWord = allWords[computerRandomNumber];
+	countOfCharsInChosenWord = computerPickedWord.length;
+	for(i=0;i<countOfCharsInChosenWord;i++)
+	{
+		//document.getElementById("currentWord").innerHTML = document.getElementById("currentWord").innerHTML + "_ ";
+		guessWord[i]='_';
+		document.getElementById("currentWord").innerHTML = document.getElementById("currentWord").innerHTML + guessWord[i] + " ";
+	}
+}
+function getChars(e){
+var keynum;
+if(window.event)
+{
+	keynum = String.fromCharCode(e.keyCode);
+	
+	guessedChars[countOfTimesGuessed++]=keynum;
+}
+
+document.getElementById("currentWord").innerHTML = "";
+var countOfMatches=0;
+for(i=0;i<countOfCharsInChosenWord;i++)
+	{
+		for(j=0;j<countOfTimesGuessed;j++)
+		{
+			/*if(guessedChars[j] == computerPickedWord[i]){
+				countOfMatches++;
+				document.getElementById("currentWord").innerHTML = document.getElementById("currentWord").innerHTML + guessedChars[j] + " ";
+			}
+			else{
+				document.getElementById("currentWord").innerHTML = document.getElementById("currentWord").innerHTML + "_ ";
+				document.getElementById("noofGuessesRemaining").innerHTML = chancesLeft.toString();
+			}*/
+			if(guessedChars[j] == computerPickedWord[i]){
+				guessWord[j]=keynum;
+			}
+		}
+		document.getElementById("currentWord").innerHTML = document.getElementById("currentWord").innerHTML + guessWord[i] + " ";
+	}
+	if(countOfMatches==0)
+		chancesLeft--;
+	wins = wins+countOfMatches;
+document.getElementById("guessedChars").innerHTML =  document.getElementById("guessedChars").innerHTML + ", " + keynum;
+
+if(wins == keynum)
+{
+	actualWins++;
+	document.getElementById("wins").innerHTML = actualWins.toString();
+	document.getElementById("noofGuessesRemaining").innerHTML = "";
+	document.getElementById("guessedChars").innerHTML = "";
+	chancesLeft=11;
+	computerPickedWord="";
+	guessedChars=[];
+	keynum="";
+}
+else
+{
+	chancesLeft--;
+	document.getElementById("noofGuessesRemaining").innerHTML = chancesLeft.toString();
+}
+if (chancesLeft == 0)
+{	
+	losses++;
+	document.getElementById("wins").innerHTML = wins.toString();
+	document.getElementById("noofGuessesRemaining").innerHTML = "11";
+	document.getElementById("guessedChars").innerHTML = "";
+	chancesLeft=11;
+	guessedChars="";
+	
+}
+
+
+}
+</script>
+<body onkeypress="return getChars(event);" onload="return getRandomWord(event);">
+	<div>
+	Press any key to get started
+	</div>
+	</br>
+	<div>
+	Wins=<label id="wins" name="wins" >0</label>
+	</div>
+	</br>
+	<div>
+	Current word=<label id="currentWord" name="currentWord"></label>
+	</div>
+	</br>
+	<div>
+	Number of guesses remaining=<label id="noofGuessesRemaining" name="noofGuessesRemaining" />
+	</div>
+	</br>
+	<div>
+	Letter already guessed=<label id="guessedChars" name="guessedChars" />
+	</div>
+</body>
+</html>
